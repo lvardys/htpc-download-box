@@ -86,23 +86,23 @@ services:
       - ${ROOT}/library/movies:/movies # movies folder
       - ${ROOT}/downloads:/downloads # download folder
 
-  plex-server:
-    container_name: plex-server
-    image: plexinc/pms-docker:latest
-    restart: unless-stopped
-    environment:
-      - TZ=${TZ} # timezone, defined in .env
-    network_mode: host
-    devices:
-      - "/dev/dri:/dev/dri"
-      - "/dev/dri/card0:/dev/dri/card0"
-      - "/dev/dri/card1:/dev/dri/card1"
-      - "/dev/dri/renderD128:/dev/dri/renderD128"
-      - "/dev/dri/renderD129:/dev/dri/renderD129"
-    volumes:
-      - ${ROOT}/config/plex/db:/config # plex database
-      - ${ROOT}/config/plex/transcode:/transcode # temp transcoded files
-      - ${ROOT}/library:/data # media library
+#  plex-server:
+#    container_name: plex-server
+#    image: plexinc/pms-docker:latest
+#    restart: unless-stopped
+#    environment:
+#      - TZ=${TZ} # timezone, defined in .env
+#    network_mode: host
+#    devices:
+#      - "/dev/dri:/dev/dri"
+#      - "/dev/dri/card0:/dev/dri/card0"
+#      - "/dev/dri/card1:/dev/dri/card1"
+#      - "/dev/dri/renderD128:/dev/dri/renderD128"
+#      - "/dev/dri/renderD129:/dev/dri/renderD129"
+#    volumes:
+#      - ${ROOT}/config/plex/db:/config # plex database
+#      - ${ROOT}/config/plex/transcode:/transcode # temp transcoded files
+#      - ${ROOT}/library:/data # media library
 
   bazarr:
     container_name: bazarr
