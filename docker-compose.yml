@@ -62,6 +62,9 @@ services:
     restart: unless-stopped
     network_mode: host
     environment:
+      - VIRTUAL_HOST=sonarr.fightingkangaroo.com
+      - VIRTUAL_PORT=8989
+      - LETSENCRYPT_HOST=sonarr.fightingkangaroo.com
       - PUID=${PUID} # default user id, defined in .env
       - PGID=${PGID} # default group id, defined in .env
       - TZ=${TZ} # timezone, defined in .env
