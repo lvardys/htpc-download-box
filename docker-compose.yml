@@ -140,7 +140,7 @@ services:
       - 80:80
       - 443:443      
     
-    nginx-proxy-letsencrypt:
+  nginx-proxy-letsencrypt:
     container_name: nginx-proxy-letsencrypt
     image: jrcs/letsencrypt-nginx-proxy-companion
     restart: unless-stopped
