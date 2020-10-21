@@ -154,6 +154,7 @@ services:
       - TZ=${TZ} # timezone, defined in .env
       - UMASK_SET=022 #optional
       - DEFAULT_EMAIL=linasv@gmail.com
+      - NGINX_PROXY_CONTAINER=nginx-proxy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/nginx/vhost.d
