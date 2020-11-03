@@ -28,6 +28,7 @@ services:
     volumes:
       - ${ROOT}/downloads:/downloads # downloads folder
       - ${ROOT}/config/deluge:/config # config files
+      - ${ROOT}/config/scripts:/scripts # config files
 
   jackett:
     container_name: jackett
@@ -62,9 +63,6 @@ services:
     restart: unless-stopped
     network_mode: host
     environment:
-      - VIRTUAL_HOST=sonarr.fightingkangaroo.com
-      - VIRTUAL_PORT=8989
-      - LETSENCRYPT_HOST=sonarr.fightingkangaroo.com
       - PUID=${PUID} # default user id, defined in .env
       - PGID=${PGID} # default group id, defined in .env
       - TZ=${TZ} # timezone, defined in .env
@@ -89,23 +87,24 @@ services:
       - ${ROOT}/library/movies:/movies # movies folder
       - ${ROOT}/downloads:/downloads # download folder
 
-#  plex-server:
-#    container_name: plex-server
-#    image: plexinc/pms-docker:latest
-#    restart: unless-stopped
-#    environment:
-#      - TZ=${TZ} # timezone, defined in .env
-#    network_mode: host
-#    devices:
-#      - "/dev/dri:/dev/dri"
-#      - "/dev/dri/card0:/dev/dri/card0"
-#      - "/dev/dri/card1:/dev/dri/card1"
-#      - "/dev/dri/renderD128:/dev/dri/renderD128"
-#      - "/dev/dri/renderD129:/dev/dri/renderD129"
-#    volumes:
-#      - ${ROOT}/config/plex/db:/config # plex database
-#      - ${ROOT}/config/plex/transcode:/transcode # temp transcoded files
-#      - ${ROOT}/library:/data # media library
+  plex-server:
+    container_name: plex-server
+    image: plexinc/pms-docker:latest
+    restart: unless-stopped
+    runtime:nvidia
+    environment:
+      - TZ=${TZ} # timezone, defined in .env
+    network_mode: host
+    devices:
+      - "/dev/dri:/dev/dri"
+      - "/dev/dri/card0:/dev/dri/card0"
+      - "/dev/dri/card1:/dev/dri/card1"
+      - "/dev/dri/renderD128:/dev/dri/renderD128"
+      - "/dev/dri/renderD129:/dev/dri/renderD129"
+    volumes:
+      - ${ROOT}/config/plex/db:/config # plex database
+      - ${ROOT}/config/plex/transcode:/transcode # temp transcoded files
+      - ${ROOT}/library:/data # media library
 
   bazarr:
     container_name: bazarr
@@ -123,41 +122,3 @@ services:
       - ${ROOT}/library/tv:/tv # tv shows folder
     ports:
       - 6767:6767
-      
-  nginx-proxy:
-    container_name: nginx-proxy
-    image: jwilder/nginx-proxy
-    restart: unless-stopped
-    network_mode: host
-    environment:
-      - PUID=${PUID} # default user id, defined in .env
-      - PGID=${PGID} # default group id, defined in .env
-      - TZ=${TZ} # timezone, defined in .env
-      - UMASK_SET=022 #optional
-    volumes:
-      - /etc/nginx/vhost.d
-      - /etc/nginx/certs
-      - /usr/share/nginx/html
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-    ports:
-      - 80:80
-      - 443:443      
-    
-  nginx-proxy-letsencrypt:
-    container_name: nginx-proxy-letsencrypt
-    image: jrcs/letsencrypt-nginx-proxy-companion
-    restart: unless-stopped
-    network_mode: host
-    environment:
-      - PUID=${PUID} # default user id, defined in .env
-      - PGID=${PGID} # default group id, defined in .env
-      - TZ=${TZ} # timezone, defined in .env
-      - UMASK_SET=022 #optional
-      - DEFAULT_EMAIL=linasv@gmail.com
-      - NGINX_PROXY_CONTAINER=nginx-proxy
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /etc/nginx/vhost.d
-      - /etc/nginx/certs
-      - /usr/share/nginx/html
-      - /var/run/docker.sock:/tmp/docker.sock:ro      
