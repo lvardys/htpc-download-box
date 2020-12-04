@@ -134,7 +134,8 @@ services:
       - TZ=${TZ} # timezone, defined in .env
       - fpm="false"
       - branch="v2-master"
+      - p="8888"
     volumes:
       - ${ROOT}/config/organizr:/config # config files
-    ports:
-      - 80:80
+    # ports:
+    #   - 80:80
