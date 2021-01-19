@@ -30,6 +30,7 @@ services:
       - ${ROOT}/downloads:/downloads # downloads folder
       - ${ROOT}/config/deluge:/config # config files
       - ${ROOT}/config/scripts:/scripts # config files
+      - ${ROOT}/library:/library # library folder for manual moves of ongoing blackholed torrents.      
 
   jackett:
     container_name: jackett
