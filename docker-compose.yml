@@ -25,6 +25,7 @@ services:
       - PUID=${PUID} # default user id, defined in .env
       - PGID=${PGID} # default group id, defined in .env
       - TZ=${TZ} # timezone, defined in .env
+      - DELUGE_LOGLEVEL=DEBUG
     volumes:
       - ${ROOT}/downloads:/downloads # downloads folder
       - ${ROOT}/config/deluge:/config # config files
@@ -127,15 +128,14 @@ services:
     container_name: organizr
     image: organizr/organizr
     restart: unless-stopped
-    network_mode: host
+#    network_mode: host
     environment:
       - PUID=${PUID} # default user id, defined in .env
       - PGID=${PGID} # default group id, defined in .env
       - TZ=${TZ} # timezone, defined in .env
-      - fpm="false"
-      - branch="v2-master"
-      - p="8888"
+      - fpm=false
+      - branch=v2-master
     volumes:
       - ${ROOT}/config/organizr:/config # config files
-    # ports:
-    #   - 80:80
+    ports:
+      - 8889:80
